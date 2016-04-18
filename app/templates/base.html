@@ -1,0 +1,74 @@
+{# <!-- -*- engine:jinja -*- --> #}
+{%  from "macros.html" import show_any_flash_messages %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxx Head START xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxx Page Title xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <title>{% block title %}Uploader dos Trabalhos{% endblock %}</title>
+
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxx Include stylesheets and related things xxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        {% include "base_subtemplates/base_includes_in_head.html" %}
+        {% block extra_includes_in_head %}{% endblock %}
+        
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxx Head END xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+    </head>
+    <body>
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxx Body START xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+        <!-- xxxxxxxxxxxxxxx Navbar START xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <div class="container">
+            {% include "base_subtemplates/base_navbar.html" %}
+        </div>
+        <!-- xxxxxxxxxxxxxxx Navbar END xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+        <div class="container">
+            <!-- xxxxxxxxxxxxxxx Flash messages START xxxxxxxxxxxxxxxxxxxxx-->
+            {% block base_flash_message %}
+            <div class="row">
+                <div class="col-md-12">
+                    <!--MESSAGE FLASHING EXAMPLE -->
+                    {{ show_any_flash_messages() }}
+                </div>
+            </div>
+            {% endblock %}
+            <!-- xxxxxxxxxxxxxxx Flash messages END xxxxxxxxxxxxxxxxxxxxx-->
+            
+            <!-- xxxxxxxxxxxxxxx base_content START xxxxxxxxxxxxxxxxxxxxxxx-->
+            <div class="row">
+                <div class="col-md-12">
+                    {% block base_content %}{% endblock %}
+                </div>
+            </div>
+            <!-- xxxxxxxxxxxxxxx base_content END xxxxxxxxxxxxxxxxxxxxxxxxx-->
+        </div>
+
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxx Base Footer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        {% block base_footer %}{% endblock %}
+
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxx Includes in Body End xxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+        <!-- Include javascript files in the end of body -->
+        {% include "base_subtemplates/base_includes_in_body_end.html" %}
+        <!-- Use this block in any child template to add extra javascript
+             that needs to be included after JQuery and similar -->
+        {% block extra_includes_in_body_end %}{% endblock %}
+        <!-- extra_includes_in_body_end -->
+    </body>
+</html>

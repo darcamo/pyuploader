@@ -1,0 +1,39 @@
+
+/* /\* Used for D3 tooltips *\/ */
+/* /\* See http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html *\/ */
+/* .tooltipd3 { */
+/*     position: absolute; */
+/*     text-align: left; */
+/*     /\* width: 10em; *\/ */
+/*     /\* height: 4em; *\/ */
+/*     padding: 5px; */
+/*     padding-right: 20px; */
+/*     color: white; */
+/*     font: 14px sans-serif; */
+/*     background: #222; */
+/*     border: 0; */
+/*     border-radius: 8px; */
+/*     pointer-events: none; */
+/* } */
+
+/* .tooltipd3 > ul */
+/* { */
+/*     text-align: left; */
+/*     padding-left: 18px; */
+/* } */
+
+
+/*.footer {*/
+    /*padding-top: 1em;*/
+/*}*/
+
+p {
+    font-size: 16px;
+}
+
+
+body {
+    /* Add some padding in body bottom so that the navbar-fixed-bottom does not
+   overlap the content at the body bottom */
+    padding-bottom: 70px;
+}

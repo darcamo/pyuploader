@@ -1,0 +1,83 @@
+
+{% macro show_any_flash_messages() %}
+<!--MESSAGE FLASHING EXAMPLE -->
+<!-- When using 'flash('some message', category='xxxxxx') the value of
+     category must be one of bootstrap main colors:
+     default, primary, success, info, warning, danger -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div>
+                <ul style="list-style-type:none">
+                    {% for category, message in messages %}
+                        {% if category == 'message' %}
+                            {# If the category it the default flash
+                            category (that is, 'message'), than we will
+                            instead use success #}
+                            <li class="alert alert-success">{{message}}</li>
+                        {% else %}
+                            <li class="alert alert-{{category}}">{{message}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endmacro %}
+
+
+{# Define a macro for rendering the form fields #}
+{% macro my_render_form_field(field, onchangecallback='', disabled=false) %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {% if disabled %}
+        {{ field(class="form-control", disabled=True, placeholder=field.label.text, title=field.description, **kwargs) }}
+        {% else %}
+        {{ field(class="form-control", onchange=onchangecallback, placeholder=field.label.text, title=field.description, **kwargs) }}
+        {% endif %}
+        {% if field.errors %}
+            <div class="alert-danger">
+            {% for error in field.errors %}
+                {{ error }}
+                <br>
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+  {% endmacro %}
+
+  {% macro my_render_form_button_field(field) %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field(locaplaceholder=field.label.text, title=field.description, **kwargs) }}
+        {% if field.errors %}
+            <div class="alert-danger">
+            {% for error in field.errors %}
+                {{ error }}
+                <br>
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{# Macro que retorna o mesmo valor. Util para retornar nada se 'value' for None #}
+{% macro nada_para_none(value) %}
+{% if value is not none %}
+{{ value }}
+{% endif %}
+{% endmacro %}
+
+
+{% macro float_with_2_decimal(value) %}
+{% if value is not none %}
+    {{'%0.2f'| format(value|float)}}
+{% else %}
+    0.00
+{% endif %}
+{% endmacro %}
+
+
+{#Converte um número entre 1 e 12 para o nome do mês#}
+{% macro numero_para_mes(numero) -%}
+    {{config.MESES_STRINGS[numero-1]}}
+{%- endmacro %}

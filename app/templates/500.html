@@ -1,0 +1,8 @@
+{% extends "main.html" %}
+{# <!-- -*- engine:jinja -*- --> #}
+
+{% block main_content %}
+    <h1>Ocorreu um erro inesperado</h1>
+    <p>O administrador foi notificado. Desculpe pela inconveniência!</p>
+    <p><a href="{{ url_for('index') }}">Voltar para página principal</a></p>
+{% endblock %}

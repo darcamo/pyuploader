@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{# <!-- -*- engine:jinja -*- --> #}
+
+{% from "macros.html" import my_render_form_field %}
+
+{% block title %}Uploader dos Trabalhos{% endblock %}
+
+{% block base_content %}
+    {% block main_content %}
+        <h1>Submissão de trabalhos e listas das aulas práticas</h1>
+        
+        <p>Nessa página vocês podem submeter os trabalhos, listas e aulas práticas.</p>
+        <p>Caso um trabalho já esteja fechado não será possível fazer novas submissões.</p>
+        <br>
+        <p>
+            Cada trabalho define uma ou mais funções que vocês devem
+            implementar. O cabeçalho das funções que vocês implementarem
+            deve estar no arquivo <tt>funcoes.hpp</tt>, enquanto que a
+            implementação dessas funções deve estar no arquivo <tt>funcoes.cpp</tt>.
+            A função <tt>main</tt> deve ficar no arquivo <tt>main.cpp</tt>,
+            que deve incluir seu arquivo <tt>funcoes.hpp</tt>. O arquivo
+            <tt>main.cpp</tt> pode conter o que vocês quiserem e não será
+            avaliado. Nele vocês devem chamar as funções que criaram para
+            poder testá-las.
+            <br>
+            Para facilitar, vocês podem baixar os arquivos para
+            <a href="{{ url_for('static', filename='code/funcoes.hpp') }}" download><tt>funcoes.hpp</tt></a>,
+            <a href="{{ url_for('static', filename='code/funcoes.cpp') }}" download><tt>funcoes.cpp</tt></a> e
+            <a href="{{ url_for('static', filename='code/main.cpp') }}" download><tt>main.cpp</tt></a>.
+            <br>
+            <b>Nota</b>: Vocês devem submeter um arquivo <tt>.zip</tt> contendo
+            todos os arquivos mencionados.
+        </p>
+        
+        <div>
+            <h2>Lista, práticas e trabalhos</h2>
+
+            <table id="listadetrabalhos" class="table table-condensed table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Nome</th>
+                        <th>Data</th>
+                        <th>Data Final</th>
+                        <th>Arquivo</th>
+                        <th>Submeter</th>
+                        <!-- <th>User ID</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t,e in trabalhos  %}
+                        <tr>
+                            <td>{{ t.type }}</td>
+                            <td>{{ t.name }}</td>
+                            <td>{{ t.startdate.date() }}</td>
+                            <td>{{ t.deadline.date() }}</td>
+                            {% if e %}
+                                <td><a href="{{ url_for('UploadDeTrabalhosView:download_uploaded_file_0', filename=e.path, trabalho_id=t.id) }}">{{ e.path }}</a></td>
+                                {% if t.em_aberto %}
+                                    <td><a href="{{ url_for('UploadDeTrabalhosView:upload_trabalho', trabalho_id=t.id) }}">Submeter trabalho {{ t.id }}</a></td>
+                                    <!-- <td>{{ e.user_id }}</td> -->
+                                {% else %}
+                                    <td>Fechado</td>
+                                    <!-- <td>{{ e.user_id }}</td> -->
+                                {% endif %}
+                            {% else %}
+                                <td class="danger">Falta Entregar</td>
+                                <td><a href="{{ url_for('UploadDeTrabalhosView:upload_trabalho', trabalho_id=t.id) }}">Submeter trabalho {{ t.id }}</a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Essa parte só vai aparecer para usuários que tenham permissão de administrador -->
+        {% if trabalhos_entregues_dos_alunos %}
+            <div>
+                <h2>Lista, práticas e trabalhos entregues pelos alunos</h2>
+                
+            <table id="listadetrabalhos_dos_alunos" class="table table-condensed table-hover table-bordered">
+                <thead>
+                    <th>Tipo</th>
+                    <th>Nome</th>
+                    <th>Data</th>
+                    <th>Data Final</th>
+                    <th>Arquivo</th>
+                    <th>Aluno</th>
+                </thead>
+                <tbody>
+                    {% for te, t in trabalhos_entregues_dos_alunos %}
+                        <tr>
+                            <td>{{ t.type }}</td>
+                            <td>{{ t.name }}</td>
+                            <td>{{ t.startdate.date() }}</td>
+                            <td>{{ t.deadline.date() }}</td>
+                            <td><a href="{{ url_for('UploadDeTrabalhosView:download_uploaded_file_1', filename=te.path, trabalho_id=t.id, user_id=te.user_id) }}">{{ te.path }}</a></td>
+                            <td>{{ te.user.name }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        
+    {% endblock %}
+{% endblock %}
