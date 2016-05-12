@@ -26,20 +26,6 @@ def index():
 
     todos_os_trabalhos = db.session.query(models.Trabalhos).all()
 
-    # Lista com todos os trabalhos. Primeiro adicionamos os trabalhos que
-    # ainda não foram entregues
-    trabalhos = []
-    for i in todos_os_trabalhos:
-        if i.id not in ids_dos_trabalhos_entregues:
-            trabalhos.append((i, None))
-
-    # Agora adicionamos os trabalhos que já foram entregues
-    trabalhos.extend(trabalhos_entregues)
-
-    # trabalhos_nao_entregues = db.session.query(models.Trabalhos).\
-    # join(models.TrabalhoEntregue).filter(models.TrabalhoEntregue.user!=u)\
-    # .all()
-
     if u.is_admin:
         trabalhos_entregues_dos_alunos \
             = db.session.query(models.TrabalhoEntregue, models.Trabalhos)\
@@ -48,13 +34,21 @@ def index():
                         .all()
 
         return render_template(
-            "main.html",
-            trabalhos=trabalhos,
+            "main_admin.html",
             trabalhos_entregues_dos_alunos=trabalhos_entregues_dos_alunos)
     else:
-        return render_template("main.html",
-                               trabalhos=trabalhos,
-                               trabalhos_entregues_dos_alunos=None)
+        # Lista com todos os trabalhos. Primeiro adicionamos os trabalhos que
+        # ainda não foram entregues
+        trabalhos = []
+        for i in todos_os_trabalhos:
+            if i.id not in ids_dos_trabalhos_entregues:
+                trabalhos.append((i, None))
+
+        # Agora adicionamos os trabalhos que já foram entregues
+        trabalhos.extend(trabalhos_entregues)
+
+        return render_template("main_aluno.html",
+                               trabalhos=trabalhos)
 
 
 @app.errorhandler(404)

@@ -31,79 +31,10 @@
             <b>Nota</b>: Vocês devem submeter um arquivo <code>.zip</code> contendo
             todos os arquivos mencionados.
         </p>
+
         
-        <div>
-            <h2>Lista, práticas e trabalhos</h2>
-
-            <table id="listadetrabalhos" class="table table-condensed table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>Nome</th>
-                        <th>Data</th>
-                        <th>Data Final</th>
-                        <th>Arquivo</th>
-                        <th>Submeter</th>
-                        <!-- <th>User ID</th> -->
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for t,e in trabalhos  %}
-                        <tr>
-                            <td>{{ t.type }}</td>
-                            <td>{{ t.name }}</td>
-                            <td>{{ t.startdate.date() }}</td>
-                            <td>{{ t.deadline.date() }}</td>
-                            {% if e %}
-                                <td><a href="{{ url_for('UploadDeTrabalhosView:download_uploaded_file_0', filename=e.path, trabalho_id=t.id) }}">{{ e.path }}</a></td>
-                                {% if t.em_aberto %}
-                                    <td><a href="{{ url_for('UploadDeTrabalhosView:upload_trabalho', trabalho_id=t.id) }}">Submeter trabalho {{ t.id }}</a></td>
-                                    <!-- <td>{{ e.user_id }}</td> -->
-                                {% else %}
-                                    <td>Fechado</td>
-                                    <!-- <td>{{ e.user_id }}</td> -->
-                                {% endif %}
-                            {% else %}
-                                <td class="danger">Falta Entregar</td>
-                                <td><a href="{{ url_for('UploadDeTrabalhosView:upload_trabalho', trabalho_id=t.id) }}">Submeter trabalho {{ t.id }}</a></td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Essa parte só vai aparecer para usuários que tenham permissão de administrador -->
-        {% if trabalhos_entregues_dos_alunos %}
-            <div>
-                <h2>Lista, práticas e trabalhos entregues pelos alunos</h2>
-                
-            <table id="listadetrabalhos_dos_alunos" class="table table-condensed table-hover table-bordered">
-                <thead>
-                <tr>
-                    <th>Tipo</th>
-                    <th>Nome</th>
-                    <th>Data</th>
-                    <th>Data Final</th>
-                    <th>Arquivo</th>
-                    <th>Aluno</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {% for te, t in trabalhos_entregues_dos_alunos %}
-                        <tr>
-                            <td>{{ t.type }}</td>
-                            <td>{{ t.name }}</td>
-                            <td>{{ t.startdate.date() }}</td>
-                            <td>{{ t.deadline.date() }}</td>
-                            <td><a href="{{ url_for('UploadDeTrabalhosView:download_uploaded_file_1', filename=te.path, trabalho_id=t.id, user_id=te.user_id) }}">{{ te.path }}</a></td>
-                            <td>{{ te.user.name }}</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        {% endif %}
+        {% block main_subcontent %}
+        {% endblock %}
         
     {% endblock %}
 {% endblock %}
