@@ -16,8 +16,7 @@ from wtforms.validators import DataRequired, Optional, Length, \
 from wtforms import StringField, IntegerField, RadioField, \
     SelectField, PasswordField, SubmitField, FloatField, TextAreaField
 from wtforms.fields.html5 import DateField
-from app.models import User, Trabalhos
-from app import db
+from ..models import User
 
 
 class CriarNovoTrabalhoForm(Form):
@@ -47,8 +46,6 @@ class UploadNewFileForm(Form):
 
     trabalho = SelectField('Tarefa',
                            choices=[('nada', 'nada')],
-                           #choices=db.session.query(Trabalhos.id, Trabalhos.name).all(),
-                           # default='A',
                            validators=[Optional()])
     comentarios = TextAreaField("Comentários (até 1000 caracteres)",
                                 validators=[Optional(), Length(max=1000)])

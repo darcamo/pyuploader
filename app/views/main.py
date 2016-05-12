@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from app import app, db, models
+from .. import app, db, models
 from flask import render_template, flash, redirect, url_for, request, \
-    make_response, jsonify, g, abort, send_from_directory, send_file
-from app.views.forms import UploadNewFileForm, LoginForm, TrocarSenhaForm, \
+    abort, send_file
+from .forms import UploadNewFileForm, LoginForm, TrocarSenhaForm, \
     CriarNovoTrabalhoForm
 from flask_login import login_user, logout_user, current_user, login_required
 from flask.ext.classy import FlaskView, route
-from app import lm
-from app.models import User
+from .. import lm
+from ..models import User
+# noinspection PyUnresolvedReferences
 from werkzeug import secure_filename
 import os
 from datetime import datetime

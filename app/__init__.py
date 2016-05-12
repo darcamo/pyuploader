@@ -86,5 +86,5 @@ toolbar = DebugToolbarExtension(app)
 db = SQLAlchemy(app)
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-from app import views, models
-from app.views import admin
+from . import views, models
+from .views import admin

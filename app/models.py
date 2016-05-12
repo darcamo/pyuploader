@@ -2,10 +2,10 @@
 
 from datetime import datetime
 
-from sqlalchemy import UniqueConstraint, CheckConstraint, func
+from sqlalchemy import UniqueConstraint, CheckConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import app, db
+from . import app, db
 
 
 # noinspection PyMethodMayBeStatic
