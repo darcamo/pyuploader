@@ -28,7 +28,7 @@
 {# Define a macro for rendering the form fields #}
 {% macro my_render_form_field(field, onchangecallback='', disabled=false) %}
     <div class="form-group">
-        <label>{{ field.label }}</label>
+        {{ field.label(class="control-label") }}
         {% if disabled %}
         {{ field(class="form-control", disabled=True, placeholder=field.label.text, title=field.description, **kwargs) }}
         {% else %}
@@ -43,9 +43,9 @@
             </div>
         {% endif %}
     </div>
-  {% endmacro %}
+{% endmacro %}
 
-  {% macro my_render_form_button_field(field) %}
+{% macro my_render_form_button_field(field) %}
     <div class="form-group">
         <label>{{ field.label }}</label>
         {{ field(locaplaceholder=field.label.text, title=field.description, **kwargs) }}

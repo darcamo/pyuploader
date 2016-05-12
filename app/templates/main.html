@@ -15,20 +15,20 @@
         <p>
             Cada trabalho define uma ou mais funções que vocês devem
             implementar. O cabeçalho das funções que vocês implementarem
-            deve estar no arquivo <tt>funcoes.hpp</tt>, enquanto que a
-            implementação dessas funções deve estar no arquivo <tt>funcoes.cpp</tt>.
-            A função <tt>main</tt> deve ficar no arquivo <tt>main.cpp</tt>,
-            que deve incluir seu arquivo <tt>funcoes.hpp</tt>. O arquivo
-            <tt>main.cpp</tt> pode conter o que vocês quiserem e não será
+            deve estar no arquivo <code>funcoes.hpp</code>, enquanto que a
+            implementação dessas funções deve estar no arquivo <code>funcoes.cpp</code>.
+            A função <code>main</code> deve ficar no arquivo <code>main.cpp</code>,
+            que deve incluir seu arquivo <code>funcoes.hpp</code>. O arquivo
+            <code>main.cpp</code> pode conter o que vocês quiserem e não será
             avaliado. Nele vocês devem chamar as funções que criaram para
             poder testá-las.
             <br>
             Para facilitar, vocês podem baixar os arquivos para
-            <a href="{{ url_for('static', filename='code/funcoes.hpp') }}" download><tt>funcoes.hpp</tt></a>,
-            <a href="{{ url_for('static', filename='code/funcoes.cpp') }}" download><tt>funcoes.cpp</tt></a> e
-            <a href="{{ url_for('static', filename='code/main.cpp') }}" download><tt>main.cpp</tt></a>.
+            <a href="{{ url_for('static', filename='code/funcoes.hpp') }}" download><code>funcoes.hpp</code></a>,
+            <a href="{{ url_for('static', filename='code/funcoes.cpp') }}" download><code>funcoes.cpp</code></a> e
+            <a href="{{ url_for('static', filename='code/main.cpp') }}" download><code>main.cpp</code></a>.
             <br>
-            <b>Nota</b>: Vocês devem submeter um arquivo <tt>.zip</tt> contendo
+            <b>Nota</b>: Vocês devem submeter um arquivo <code>.zip</code> contendo
             todos os arquivos mencionados.
         </p>
         
@@ -80,12 +80,14 @@
                 
             <table id="listadetrabalhos_dos_alunos" class="table table-condensed table-hover table-bordered">
                 <thead>
+                <tr>
                     <th>Tipo</th>
                     <th>Nome</th>
                     <th>Data</th>
                     <th>Data Final</th>
                     <th>Arquivo</th>
                     <th>Aluno</th>
+                </tr>
                 </thead>
                 <tbody>
                     {% for te, t in trabalhos_entregues_dos_alunos %}
