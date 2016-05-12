@@ -15,8 +15,23 @@ from wtforms.validators import DataRequired, Optional, Length, \
     ValidationError, EqualTo
 from wtforms import StringField, IntegerField, RadioField, \
     SelectField, PasswordField, SubmitField, FloatField, TextAreaField
+from wtforms.fields.html5 import DateField
 from app.models import User, Trabalhos
 from app import db
+
+
+class CriarNovoTrabalhoForm(Form):
+    # Ex: "Prática 3", "Lista 4", etc
+    name = StringField('Nome', validators=[DataRequired(),
+                                           Length(min=4, max=64)])
+    startdate = DateField("Início", validators=[DataRequired()])
+    deadline = DateField("Data de Entrega", validators=[DataRequired()])
+    type = SelectField('Tipo',
+                       choices=[('Pratica', 'Prática'),
+                                ('Trabalho', 'Trabalho')],
+                       validators=[Optional()])
+    submit = SubmitField("Enviar")
+
 
 
 class UploadNewFileForm(Form):

@@ -3,7 +3,8 @@
 from app import app, db, models
 from flask import render_template, flash, redirect, url_for, request, \
     make_response, jsonify, g, abort, send_from_directory, send_file
-from app.views.forms import UploadNewFileForm, LoginForm, TrocarSenhaForm
+from app.views.forms import UploadNewFileForm, LoginForm, TrocarSenhaForm, \
+    CriarNovoTrabalhoForm
 from flask_login import login_user, logout_user, current_user, login_required
 from flask.ext.classy import FlaskView, route
 from app import lm
@@ -99,6 +100,31 @@ def load_user(user_id):
 #     g.user = current_user
 
 
+class CriarNovoTrabalhoView(FlaskView):
+    @route("/", methods=["GET", "POST"])
+    def index(self):
+        form = CriarNovoTrabalhoForm()
+
+        if form.validate_on_submit():
+            t = models.Trabalhos(name=form.name.data, type=form.type.data,
+                                 startdate=form.startdate.data,
+                                 deadline=form.deadline.data,
+                                 em_aberto=True)
+            db.session.add(t)
+            db.session.commit()
+
+            flash("Novo trabalho cadastrado com sucesso")
+
+            # Retorna para a função main
+            return redirect(
+                url_for('index'))
+        else:
+            return render_template("criar_trabalho.html", form=form)
+
+
+CriarNovoTrabalhoView.register(app)
+
+
 class UploadDeTrabalhosView(FlaskView):
     @route('/download/<int:trabalho_id>/<path:filename>/<int:user_id>')
     @route('/download/<int:trabalho_id>/<path:filename>')
@@ -108,7 +134,7 @@ class UploadDeTrabalhosView(FlaskView):
             user_obj = db.session.query(models.User).get(user_id)
         else:
             user_obj = current_user
-            
+
         folder = self._get_user_task_folder(trabalho_id, user_obj)
         folder = folder.split("/", maxsplit=1)[1]
 
@@ -209,7 +235,7 @@ class UploadDeTrabalhosView(FlaskView):
             # ... ... ...
             # TODO: Finish implementation
 
-            flash("Trabalho cadastrado com sucesso")
+            flash("Trabalho enviado com sucesso")
 
             # Retorna para a função main
             return redirect(
