@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -14,7 +15,25 @@ from flask.ext.bower import Bower
 # xxxxxxxxxx App Initialization xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 app = Flask(__name__)
 Bower(app) # This provides the /bower url route.
-app.config.from_object('config')
+try:
+    # If config.py does not exist an exception is raised. We will create
+    # config.py from default_config.py and try to load from the new config.py
+    #  file.
+    app.config.from_object('config')
+except Exception:
+    import os, binascii
+    fid = open("default_config.py")
+    fid2 = open("config.py", mode='w')
+    data = fid.read()
+    # Copy default_config.py to the new config.py file, but replace variables
+    #  first.
+    fid2.write(data.replace("MY_SUPER_SECRET_KEY_REPLACE_THIS",
+                            binascii.hexlify(os.urandom(24)).decode('utf-8')))
+    fid.close()
+    fid2.close()
+    # Load configuration from the new config file.
+    app.config.from_object('config')
+
 app.wsgi_app = ProxyFix(app.wsgi_app)
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -39,6 +58,14 @@ lm.login_message = 'Você precisa logar para poder acessar essa página.'
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # xxxxxxxxxx Logging with Rotating File Setup xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+LOG_FILE = app.config.get('LOG_FILE')
+# Check if LOG_FILE is in a directory. In that case, create that directory if
+#  necessary.
+LOG_DIR = os.path.split(LOG_FILE)[0]
+if LOG_DIR != "" and not os.path.isdir(LOG_DIR):
+    os.mkdir(LOG_DIR)
+
+# Now we create our rotating logger
 handler = RotatingFileHandler(
     app.config.get('LOG_FILE'), maxBytes=10000, backupCount=5)
 handler.setLevel(logging.DEBUG)

@@ -27,6 +27,9 @@ SECRET_KEY = 'MY_SUPER_SECRET_KEY_REPLACE_THIS'
 
 # xxxxxxxxxx Logging xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 LOG_FILE = os.path.join(basedir, 'log/app_logger.log')
+LOG_DIR = os.path.split(LOG_FILE)[0]
+if not os.path.isdir(LOG_DIR):
+    os.mkdir(LOG_DIR)
 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 # xxxxxxxxxx SQL Configuration xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
