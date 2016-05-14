@@ -63,7 +63,11 @@ class User(db.Model):
         Save method. Allows to easily save a single object.
         Also logs the errors in case of Exception.
         Customise this method to suit your needs.
-        :return: True if the operation succeed, False otherwise.
+
+        Returns
+        -------
+        bool
+            True if the operation succeed, False otherwise.
         """
         db.session.add(self)
         try:
@@ -80,7 +84,11 @@ class User(db.Model):
         Delete method allows to easily delete a single object.
         Also logs the errors in case of Exception.
         Customise this method to suit your needs.
-        :return: True if the operation succeed, False otherwise.
+
+        Returns
+        -------
+        bool
+            True if the operation succeed, False otherwise.
         """
         db.session.delete(self)
         try:
