@@ -61,9 +61,9 @@ lm.login_message = 'Você precisa logar para poder acessar essa página.'
 LOG_FILE = app.config.get('LOG_FILE')
 # Check if LOG_FILE is in a directory. In that case, create that directory if
 #  necessary.
-LOG_DIR = os.path.split(LOG_FILE)[0]
-if LOG_DIR != "" and not os.path.isdir(LOG_DIR):
-    os.mkdir(LOG_DIR)
+log_dir = os.path.split(LOG_FILE)[0]
+if log_dir != "" and not os.path.isdir(log_dir):
+    os.mkdir(log_dir)
 
 # Now we create our rotating logger
 handler = RotatingFileHandler(
