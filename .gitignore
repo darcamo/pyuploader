@@ -62,5 +62,5 @@ target/
 
 venv
 *.pyc
-# app/static/bower_components
 config.py
+log
