@@ -35,6 +35,7 @@ def index():
 
         return render_template(
             "main_admin.html",
+            todos_os_trabalhos=todos_os_trabalhos,
             trabalhos_entregues_dos_alunos=trabalhos_entregues_dos_alunos)
     else:
         # Lista com todos os trabalhos. Primeiro adicionamos os trabalhos que

@@ -4,10 +4,37 @@
 {% from "macros.html" import my_render_form_field %}
 
 {% block main_subcontent %}
+    <style>
+     th {
+         text-align: center;
+     }
+    </style>
+    
     <div>
         <h2>Lista, práticas e trabalhos cadastrados</h2>
-
-        Lalalala
+        
+        <table id="listadetrabalhos_dos_alunos" class="table table-condensed table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Nome</th>
+                    <th>Data</th>
+                    <th>Data Final</th>
+                    <th>Aceitando Submissões</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in todos_os_trabalhos %}
+                    <tr>
+                        <td>{{ t.type }}</td>
+                        <td>{{ t.name }}</td>
+                        <td>{{ t.startdate.date() }}</td>
+                        <td>{{ t.deadline.date() }}</td>
+                        <td>{{ "Sim" if t.em_aberto else "Não" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     
     <div>
