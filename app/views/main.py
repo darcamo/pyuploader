@@ -163,6 +163,31 @@ class UploadDeTrabalhosView(FlaskView):
                                              str(trabalho_id))
         return full_task_folder_name
 
+    def _save_user_upload_to_file(self, full_task_folder_name, form):
+        """
+        Get the upload data from the submitted form and save to a file in the
+        correct location pointed by `full_task_folder_name`.
+        """
+
+
+        # Full name of the file at the server
+        full_filename = os.path.join(full_task_folder_name,
+                                     form.arquivo.data.filename)
+        # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+        # TODO: Veja se o arquivo já existe. Se existir, adicione como
+        # nova versão.
+        # Save the uploaded file to the destination
+        try:
+            form.arquivo.data.save(full_filename)
+        except OSError:
+            # If the parent folders don't exist a FileNotFoundError
+            # (inherits from OSError) exception is raised. In that case
+            # we create the parent folders and then we try to save the
+            # file again
+            os.makedirs(full_task_folder_name)
+            form.arquivo.data.save(full_filename)
+
     @route("/<int:trabalho_id>/novo_trabalho", methods=['GET', 'POST'])
     @login_required
     def upload_trabalho(self, trabalho_id=None):
@@ -177,29 +202,9 @@ class UploadDeTrabalhosView(FlaskView):
             # trabalho_id for the current user.
             full_task_folder_name = self._get_user_task_folder(trabalho_id)
 
-            # Full name of the file at the server
-            full_filename = os.path.join(full_task_folder_name,
-                                         form.arquivo.data.filename)
-            # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-            # TODO: Veja se o arquivo já existe. Se existir, adicione como
-            # nova versão.
-            # Save the uploaded file to the destination
-
-            try:
-                form.arquivo.data.save(full_filename)
-            except OSError:
-                # If the parent folders don't exist a FileNotFoundError
-                # (inherits from OSError) exception is raised. In that case
-                # we create the parent folders and then we try to save the
-                # file again
-                os.makedirs(full_task_folder_name)
-                form.arquivo.data.save(full_filename)
-
-
             # xxxxx Check if there is already an entry in database xxxxxxxx
             # Check if there is an entry for this specific user_id and
-            # trabalho_oi.
+            # trabalho_id.
             trabalho_entregue = db.session.query(models.TrabalhoEntregue)\
                                           .filter_by(user_id=current_user.id,
                                                      trabalho_id=trabalho_id)\
@@ -226,16 +231,14 @@ class UploadDeTrabalhosView(FlaskView):
                 db.session.commit()
                 # xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+            # Finally Save file to the correct folder
+            self._save_user_upload_to_file(full_task_folder_name, form)
 
-            # Código para adicionar um trabalho
-            # ... ... ...
-            # TODO: Finish implementation
-
+            # Show the message to the user
             flash("Trabalho enviado com sucesso")
 
             # Retorna para a função main
-            return redirect(
-                url_for('index'))
+            return redirect(url_for('index'))
         else:
             return render_template("upload_novo_trabalho.html",
                                    form=form,
